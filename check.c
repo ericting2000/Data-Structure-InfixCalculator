@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "main.h"
-#include "stack.c"
+#include "stack.h"
 
 int check_valid_char(char C) {
     char a, b;
@@ -28,7 +28,7 @@ int check_valid_char(char C) {
             break;
         default: {
             printf("Illegal character\n");
-            printf("Press esc to quit or any other key to continue.\n");
+            /*printf("Press esc to quit or any other key to continue.\n");
             scanf("%c", &a);
             system("stty -icanon");
             system("stty -echo");
@@ -36,14 +36,15 @@ int check_valid_char(char C) {
             system("stty icanon");
             system("stty echo");
             if (b == 27) exit(0);
-            system("clear");
+            system("clear");*/
             return 1;
         }
     }
     return 0;
 }
 
-int check_valid_expess(char input[], int len) {
+int check_valid_express(char input[], int len) {
+    int stat = 0;
     stack s;
     bool balanced = true;
     init_stack(&s);
@@ -60,45 +61,48 @@ int check_valid_expess(char input[], int len) {
             case '7':
             case '8':
             case '9':
-                if (input[i + 1] == '0' || input[i + 1] == '1' || input[i + 1] == '2' ||
-                    input[i + 1] == '3' || input[i + 1] == '4' || input[i + 1] == '5' ||
-                    input[i + 1] == '6' || input[i + 1] == '7' || input[i + 1] == '8' ||
-                    input[i + 1] == '9') {
-                    printf("Illegal operand(多位數)\n");
-                    printf("Press esc to quit or any other key to continue.\n");
-                    scanf("%c", &a);
-                    system("stty -icanon");
-                    system("stty -echo");
-                    b = getchar();
-                    system("stty icanon");
-                    system("stty echo");
-                    if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
-                }
-
-                if (input[i + 1] == '(') {
-                    printf("Identifier followed by a left parenthesis\n");
-                    printf("Press esc to quit or any other key to continue.\n");
-                    scanf("%c", &a);
-                    system("stty -icanon");
-                    system("stty -echo");
-                    b = getchar();
-                    system("stty icanon");
-                    system("stty echo");
-                    if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
+                if (i > 0) {
+                    /*if (input[i - 1] == '0' || input[i - 1] == '1' || input[i - 1] == '2' ||
+                        input[i - 1] == '3' || input[i - 1] == '4' || input[i - 1] == '5' ||
+                        input[i - 1] == '6' || input[i - 1] == '7' || input[i - 1] == '8' ||
+                        input[i - 1] == '9') {
+                        printf("Illegal operand(多位數)\n");
+                        stat = 1;
+                        printf("Press esc to quit or any other key to continue.\n");
+                        scanf("%c", &a);
+                        system("stty -icanon");
+                        system("stty -echo");
+                        b = getchar();
+                        system("stty icanon");
+                        system("stty echo");
+                        if (b == 27) exit(0);
+                        system("clear");
+                    //continue;
+                    }*/
+                    if (input[i - 1] == ')') {
+                        printf("Right parenthesis followed by an identifier\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
+                        scanf("%c", &a);
+                        system("stty -icanon");
+                        system("stty -echo");
+                        b = getchar();
+                        system("stty icanon");
+                        system("stty echo");
+                        if (b == 27) exit(0);
+                        system("clear");*/
+                        //continue;
+                    }
                 }
                 break;
             case '+':
             case '-':
             case '*':
             case '/':
-                if (input[i + 1] == '+' || input[i + 1] == '-' || input[i + 1] == '*' ||
-                    input[i + 1] == '/') {
-                    printf("Operator followed by an operator\n");
-                    printf("Press esc to quit or any other key to continue.\n");
+                if (i == 0) {
+                    printf("First character an operator\n");
+                    stat = 1;
+                    /*printf("Press esc to quit or any other key to continue.\n");
                     scanf("%c", &a);
                     system("stty -icanon");
                     system("stty -echo");
@@ -106,12 +110,14 @@ int check_valid_expess(char input[], int len) {
                     system("stty icanon");
                     system("stty echo");
                     if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
+                    system("clear");*/
+                    //continue;
                 }
-                if (input[i + 1] == ')') {
-                    printf("Operator followed by a right parenthesis\n");
-                    printf("Press esc to quit or any other key to continue.\n");
+                if (i > 0) {
+                    if (i == len - 1) {
+                        printf("Last character an operator\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
                     scanf("%c", &a);
                     system("stty -icanon");
                     system("stty -echo");
@@ -119,15 +125,53 @@ int check_valid_expess(char input[], int len) {
                     system("stty icanon");
                     system("stty echo");
                     if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
+                    system("clear");*/
+                        //continue;
+                    }
+                    if (input[i - 1] == '+' || input[i - 1] == '-' || input[i - 1] == '*' ||
+                        input[i - 1] == '/') {
+                        printf("Operator followed by an operator\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
+                    scanf("%c", &a);
+                    system("stty -icanon");
+                    system("stty -echo");
+                    b = getchar();
+                    system("stty icanon");
+                    system("stty echo");
+                    if (b == 27) exit(0);
+                    system("clear");*/
+                        //continue;
+                    }
+                    if (input[i - 1] == '(') {
+                        /*if (input[i + 1] = '0' || input[i + 1] == '1' || input[i + 1] == '2' ||
+                            input[i + 1] == '3' || input[i + 1] == '4' || input[i + 1] == '5' ||
+                            input[i + 1] == '6' || input[i + 1] == '7' || input[i + 1] == '8' ||
+                            input[i + 1] == '9')*/
+                        printf("Left parenthesis followed by an operator\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
+                    scanf("%c", &a);
+                    system("stty -icanon");
+                    system("stty -echo");
+                    b = getchar();
+                    system("stty icanon");
+                    system("stty echo");
+                    if (b == 27) exit(0);
+                    system("clear");*/
+                        //continue;
+                    }
                 }
                 break;
             case '(':
-                if (input[i + 1] == '+' || input[i + 1] == '-' || input[i + 1] == '*' ||
-                    input[i + 1] == '/') {
-                    printf("Left parenthesis followed by an operator\n");
-                    printf("Press esc to quit or any other key to continue.\n");
+                if (i > 0) {
+                    if (input[i - 1] == '0' || input[i - 1] == '1' || input[i - 1] == '2' ||
+                        input[i - 1] == '3' || input[i - 1] == '4' || input[i - 1] == '5' ||
+                        input[i - 1] == '6' || input[i - 1] == '7' || input[i - 1] == '8' ||
+                        input[i - 1] == '9') {
+                        printf("Identifier followed by a left parenthesis\n");
+                        stat = 1;
+                        /* printf("Press esc to quit or any other key to continue.\n");
                     scanf("%c", &a);
                     system("stty -icanon");
                     system("stty -echo");
@@ -135,12 +179,13 @@ int check_valid_expess(char input[], int len) {
                     system("stty icanon");
                     system("stty echo");
                     if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
-                }
-                if (input[i + 1] == ')') {
-                    printf("Left parenthesis followed by a right parenthesis\n");
-                    printf("Press esc to quit or any other key to continue.\n");
+                    system("clear");*/
+                        //continue;
+                    }
+                    if (input[i - 1] == ')') {
+                        printf("Right parenthesis followed by a left parenthesis\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
                     scanf("%c", &a);
                     system("stty -icanon");
                     system("stty -echo");
@@ -148,19 +193,34 @@ int check_valid_expess(char input[], int len) {
                     system("stty icanon");
                     system("stty echo");
                     if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
+                    system("clear");*/
+                        //continue;
+                    }
                 }
+
                 if (balanced == true)
                     push(&s, input[i]);
                 break;
             case ')':
-                if (input[i + 1] == '0' || input[i + 1] == '1' || input[i + 1] == '2' ||
-                    input[i + 1] == '3' || input[i + 1] == '4' || input[i + 1] == '5' ||
-                    input[i + 1] == '6' || input[i + 1] == '7' || input[i + 1] == '8' ||
-                    input[i + 1] == '9') {
-                    printf("Right parenthesis followed by an identifier\n");
-                    printf("Press esc to quit or any other key to continue.\n");
+                if (i > 0) {
+                    if (input[i - 1] == '+' || input[i - 1] == '-' || input[i - 1] == '*' || input[i - 1] == '/') {
+                        printf("Operator followed by a right parenthesis\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
+                        scanf("%c", &a);
+                        system("stty -icanon");
+                        system("stty -echo");
+                        b = getchar();
+                        system("stty icanon");
+                        system("stty echo");
+                        if (b == 27) exit(0);
+                        system("clear");*/
+                        //continue;
+                    }
+                    if (input[i - 1] == '(') {
+                        printf("Left parenthesis followed by a right parenthesis\n");
+                        stat = 1;
+                        /*printf("Press esc to quit or any other key to continue.\n");
                     scanf("%c", &a);
                     system("stty -icanon");
                     system("stty -echo");
@@ -168,22 +228,11 @@ int check_valid_expess(char input[], int len) {
                     system("stty icanon");
                     system("stty echo");
                     if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
+                    system("clear");*/
+                        //continue;
+                    }
                 }
-                if (input[i + 1] == '(') {
-                    printf("Right parenthesis followed by a left parenthesis\n");
-                    printf("Press esc to quit or any other key to continue.\n");
-                    scanf("%c", &a);
-                    system("stty -icanon");
-                    system("stty -echo");
-                    b = getchar();
-                    system("stty icanon");
-                    system("stty echo");
-                    if (b == 27) exit(0);
-                    system("clear");
-                    return 1;
-                }
+
                 if (pop(&s) != '(')
                     balanced = false;
                 break;
@@ -191,39 +240,13 @@ int check_valid_expess(char input[], int len) {
     }
     if (stack_empty(&s) == false)
         balanced = false;
-    if (input[0] == '+' || input[0] == '-' || input[0] == '*' ||
-        input[0] == '/') {
-        printf("First character an operator\n");
-        printf("Press esc to quit or any other key to continue.\n");
-        scanf("%c", &a);
-        system("stty -icanon");
-        system("stty -echo");
-        b = getchar();
-        system("stty icanon");
-        system("stty echo");
-        if (b == 27) exit(0);
-        system("clear");
-        return 1;
-    }
-    if (input[len - 1] == '+' || input[len - 1] == '-' || input[len - 1] == '*' ||
-        input[len - 1] == '/') {
-        printf("Last character an operator\n");
-        printf("Press esc to quit or any other key to continue.\n");
-        scanf("%c", &a);
-        system("stty -icanon");
-        system("stty -echo");
-        b = getchar();
-        system("stty icanon");
-        system("stty echo");
-        if (b == 27) exit(0);
-        system("clear");
-        return 1;
-    }
+
     if (balanced == false) {
-        printf("NOT BALANCED\n");
+        //printf("NOT BALANCED\n");
         if (stack_empty(&s) == true) {
             printf("Unmatched right parenthesis\n");
-            printf("Press esc to quit or any other key to continue.\n");
+            stat = 1;
+            /*printf("Press esc to quit or any other key to continue.\n");
             scanf("%c", &a);
             system("stty -icanon");
             system("stty -echo");
@@ -231,11 +254,11 @@ int check_valid_expess(char input[], int len) {
             system("stty icanon");
             system("stty echo");
             if (b == 27) exit(0);
-            system("clear");
-            return 1;
+            system("clear");*/
         } else {
             printf("Unmatched left parenthesis\n");
-            printf("Press esc to quit or any other key to continue.\n");
+            stat = 1;
+            /*printf("Press esc to quit or any other key to continue.\n");
             scanf("%c", &a);
             system("stty -icanon");
             system("stty -echo");
@@ -243,9 +266,11 @@ int check_valid_expess(char input[], int len) {
             system("stty icanon");
             system("stty echo");
             if (b == 27) exit(0);
-            system("clear");
-            return 1;
+            system("clear");*/
         }
     }
-    return 0;
+    if (stat == 1)
+        return 1;
+    else
+        return 0;
 }

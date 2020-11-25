@@ -1,10 +1,12 @@
+
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "main.h"
-#include "stack.c"
+#include "stack.h"
 
 int priority(char a) {
     if (a == '(')
@@ -16,10 +18,9 @@ int priority(char a) {
     return -1;
 }
 
-void postfix(char infix[], int len) {
+char* postfix(char infix[], char postfix[], int len) {
     //printf("check in postfix\n");
     stack s = {};
-    char postfix[50];
     int k = 0;
     init_stack(&s);
     //printf("top = %d\n", s.top);
@@ -63,5 +64,5 @@ void postfix(char infix[], int len) {
         postfix[k++] = pop(&s);
     postfix[k - 1] = '\0';
     printf("The postfix expression: %s\n", postfix);
-    //return &postfix;
+    return postfix;
 }
