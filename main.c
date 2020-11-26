@@ -30,6 +30,7 @@ int main() {
     while (scanf("%s", input) == 1) {
         int valid1 = 0, valid2 = 0;
         int tap1 = 0, tap2 = 0;
+        len = 0;
         len = strlen(input);
         if (len > 20) {
             printf("Error - line contains more characters than allowed.\n");
@@ -41,6 +42,7 @@ int main() {
                 valid1 = check_valid_char(input[i]);
                 //if (valid1 == 1) continue;
             }
+            check = 0;
             valid2 = check_valid_express(input, len);
             if (valid1 == 1 || valid2 == 1) {
                 esc_to_exit();
