@@ -1,6 +1,6 @@
-# Data_Structure_Infix_Calculator
+# Data-Structure-InfixCalculator
 
-### Infix Calculator HW from 109-1 Data_Structure
+### Infix Calculator HW from 109-1 Data Structure
 
 !!!compile main.c and your ready to go.
 (1)enter your infix expression without any blank(with characters limitation up to 20).
